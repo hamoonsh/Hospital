@@ -1,4 +1,19 @@
-﻿$(document).ready(function () {
+﻿
+
+
+$(document).ready(function () {
+
+    $('#mobileNO').keyup(function () {
+        var str = $('#mobileNO').val();
+        const regex = RegExp('09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}');
+        if (regex.test(str)) {
+            $('#btn').prop('disabled', false);
+        }
+        else {
+            // alert(str)
+            //  alert("nok")
+        }
+    });
     var current_fs, next_fs, previous_fs; //fieldsets
     var opacity;
     var current = 1;

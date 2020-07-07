@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Hospital.Models.GetHospitalsResponse>
+
+@{
     Layout = null;
 }
 
@@ -115,60 +117,31 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
-                                    <label>
-                                        <input type="radio"
-                                               name="demo"
-                                               class="card-input-element d-none"
-                                               id="demo1" />
-                                        <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center">
-                                            Organization 1
-                                        </div>
-                                    </label>
+
+
+                                    @{
+                                        int i = 1;
+                                        foreach (var item in Model)
+                                        {
+                                            <text>
+
+                                                <label style="margin-top:5px;margin-bottom:5px">
+
+                                                    <input @{if (i == 1) { <text>
+                                                           checked="checked"
+                                                           </text>  i++; }; } type="radio" name="Hospital" class="card-input-element d-none" id="@item.HospitalID" />
+                                                    <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center" style="padding: 40px">
+                                                        HospitalName : @Html.DisplayFor(modelItem => item.Name) <br />
+                                                        Doctor : @Html.DisplayFor(modelItem => item.Doctor) <br />
+                                                        Waiting Time : @Html.DisplayFor(modelItem => item.WaitingTime)
+                                                    </div>
+                                                </label>
+
+                                            </text>
+                                        }
+
+
+                                    }
                                 </div>
                             </div>
                             <input type="button"
@@ -191,8 +164,8 @@
                                     </div>
                                 </div>
 
-                                <label class="fieldlabels">Mobile No.: *</label>
-                                <input type="text" name="phno" placeholder="Mobile No." />
+                                <label class="fieldlabels">Mobile No.: <span style="color:red">*</span></label>
+                                <input type="text" id="mobileNO" name="phno" placeholder="Mobile No." />
                             </div>
                             <input id="btn" disabled type="button"
                                    name="next"
