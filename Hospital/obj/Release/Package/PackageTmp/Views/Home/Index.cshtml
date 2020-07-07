@@ -1,0 +1,266 @@
+﻿@model Hospital.Models.GetHospitalsResponse
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet" />
+
+    <script src="https://use.fontawesome.com/e31a28f9a1.js"></script>
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <script src="~/Scripts/Site.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                    <h2 id="heading">Book an appointment</h2>
+                    <p>Fill all form field to go to next step</p>
+                    <form id="msform">
+                        <!-- progressbar -->
+                        <ul id="progressbar">
+                            <li class="active" id="feeling"><strong>Feeling</strong></li>
+                            <li id="hospital"><strong>Hospitals</strong></li>
+
+                            <li id="personal">
+                                <strong>Mobile</strong>
+                            </li>
+                            <li id="confirm"><strong>Finish</strong></li>
+                        </ul>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                 role="progressbar"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                        </div>
+                        <br />
+                        <!-- fieldsets -->
+                        <fieldset>
+                            <div class="form-card cc-selector">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">How Do You Feel :</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 1 - 4</h2>
+                                    </div>
+                                </div>
+                                <input checked="checked"
+                                       id="zero"
+                                       name="feeling"
+                                       type="radio"
+                                       value="0" />
+                                <label class="drinkcard-cc zero" for="zero"></label>
+
+                                <input id="one" type="radio" name="feeling" value="1" />
+
+                                <label class="drinkcard-cc one" for="one"></label>
+
+                                <input id="two" type="radio" name="feeling" value="2" />
+                                <label class="drinkcard-cc two" for="two"></label>
+
+                                <input id="three" type="radio" name="feeling" value="3" />
+                                <label class="drinkcard-cc three" for="three"></label>
+
+                                <input id="four" type="radio" name="feeling" value="4" />
+                                <label class="drinkcard-cc four" for="four"></label>
+                            </div>
+                            <input type="button"
+                                   onclick="getData()"
+                                   name="next"
+                                   class="next action-button"
+                                   value="Next" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Hospitals :</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 2 - 4</h2>
+                                    </div>
+                                </div>
+                                <div>
+
+                                    @{
+                                        int i = 1;
+                                        foreach (var item in Model.hospitals)
+                                        {
+
+                                            <text>
+
+                                                <label style="margin-top:5px;margin-bottom:5px">
+
+                                                    <input @{if (i == 1) { <text>
+                                                           checked="checked"
+                                                           </text>  i++; }; } type="radio" name="Hospital" class="card-input-element d-none" id="@item.hospitalID" value="@item.hospitalID" />
+                                                    <div class="card card-body bg-light d-flex flex-row justify-content-between align-items-center" style="padding: 40px">
+                                                        HospitalName : @Html.DisplayFor(modelItem => item.name) <br />
+                                                        Doctor : @Html.DisplayFor(modelItem => item.doctor) <br />
+                                                        Waiting Time :<span style="display: contents;" id="time@{@item.hospitalID}">@Html.DisplayFor(modelItem => item.waitingTime)</span>
+                                                    </div>
+                                                </label>
+                                            </text>
+                                        }
+
+                                    }
+                                </div>
+                            </div>
+                            <input type="button"
+                                   name="next"
+                                   class="next action-button"
+                                   value="Next" />
+                            <input type="button"
+                                   name="previous"
+                                   class="previous action-button-previous"
+                                   value="Previous" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Mobile Number :</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 3 - 4</h2>
+                                    </div>
+                                </div>
+
+                                <label class="fieldlabels">Mobile No.: <span id="error" style="color:red"></span></label>
+                                <input type="text" id="mobileNO" maxlength="11" name="phno" placeholder="Mobile No." />
+                            </div>
+                            <input id="btn" disabled type="button"
+                                   name="next"
+                                   onclick="sendData()"
+                                   class="action-button next"
+                                   value="Next" />
+                            <input type="button"
+                                   name="previous"
+                                   class="previous action-button-previous"
+                                   value="Previous" />
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Finish:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 4 - 4</h2>
+                                    </div>
+                                </div>
+                                <br /><br />
+                                <h2 class="purple-text text-center">
+                                    <strong id="result"></strong>
+                                </h2>
+                                <br />
+                                <div class="row justify-content-center">
+                                    <div class="col-3">
+                                        <img id="image" src=""
+                                             class="fit-image" />
+                                    </div>
+                                </div>
+                                <br /><br />
+                                <div class="row justify-content-center">
+                                    <div class="col-7 text-center">
+                                        <h5 id="appointment" class="purple-text text-center">
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <script>
+                function sendData() {
+                    if ($('#btn').prop('disabled') == false) {
+                        var patient = {
+
+                            Level: $("input[type='radio']:checked").val(),
+                            MobileNumber: $('#mobileNO').val(),
+                            HospitalID: $("input[type='radio'][name='Hospital']:checked").val(),
+                            DoctorID: $("input[type='radio'][name='Hospital']:checked").val(),
+                            IsVisited: false
+                        };
+                        $.ajax({
+                            url: '/Home/RegPatientAsync',
+
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify(patient),
+                            dataType: "Json",
+
+                        }).done(function (data) {
+
+                            if (data.result) {
+                                $('#image').attr("src", "http://hospital.pmwebsite.ir/img/ok.png");
+                                document.getElementById('result').innerHTML = "SUCCESS !";
+                                document.getElementById('appointment').innerHTML = "Your Appointment Is Registered !";
+                            }
+                            else {
+                                $('#image').attr("src", "http://hospital.pmwebsite.ir/img/warning.png");
+                                document.getElementById('result').innerHTML = "ERROR !";
+                                document.getElementById('appointment').innerHTML = "Your Appointment Registeration Failed !";
+                            }
+
+                        }).fail(function (x, y, z) {
+
+                            $('#image').attr("src", "http://hospital.pmwebsite.ir/img/warning.png");
+                            document.getElementById('result').innerHTML = "ERROR !";
+                            document.getElementById('appointment').innerHTML = "Your Appointment Registeration Failed !";
+
+                        });
+                    }
+                }
+
+                function getData() {
+
+                    $.ajax({
+                        url: 'https://hospitalapi.pmwebsite.ir/Hospital?level=' + $("input[type='radio']:checked").val(),
+
+                        type: 'GET',
+                        dataType: "Json",
+                        success: function (data) {
+
+                            var i;
+                            for (i = 0; i < data.hospitals.length; i++) {
+                                var id = data.hospitals[i].hospitalID;
+                                var time = data.hospitals[i].waitingTime;
+                                document.getElementById('time' + id).innerHTML = time;
+                            }
+                        },
+                        error: function (request, error) {
+
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
