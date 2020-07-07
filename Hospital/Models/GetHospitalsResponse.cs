@@ -1,10 +1,17 @@
-﻿namespace Hospital.Models
+﻿using System.Collections.Generic;
+
+namespace Hospital.Models
 {
     public class GetHospitalsResponse
     {
-        public int HospitalID { get; set; }
-        public string Name { get; set; }
-        public int WaitingTime { get; set; }
-        public string Doctor { get; set; }
+        public Hospital[] hospitals { get; set; }
+    }
+
+    public class Hospital
+    {
+        public int hospitalID { get; set; }
+        public string name { get; set; }
+        public int waitingTime { get; set; }
+        public string doctor { get; set; }
     }
 }

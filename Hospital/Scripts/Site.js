@@ -1,17 +1,20 @@
-﻿
-
-
-$(document).ready(function () {
-
+﻿$(document).ready(function () {
+    $(window).keydown(function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+  
     $('#mobileNO').keyup(function () {
         var str = $('#mobileNO').val();
         const regex = RegExp('09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}');
         if (regex.test(str)) {
             $('#btn').prop('disabled', false);
+            document.getElementById("error").innerHTML = "";
         }
         else {
-            // alert(str)
-            //  alert("nok")
+            document.getElementById("error").innerHTML = "Enter a valid phone number"
         }
     });
     var current_fs, next_fs, previous_fs; //fieldsets
